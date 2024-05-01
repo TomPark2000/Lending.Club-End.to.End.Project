@@ -12,47 +12,72 @@ loan amount, loan term, interest rate, monthly payment, loan status, loan grade,
 
 ## EDA, Feature Engineering, and Data Preprocessing 
 ***Initial EDA***
+
 I visualized several the relationships in order to get a better understanding of the features and the correlations of those features.
 
-Since we will be attempting to predict loan status, I started with a count plot:
+Since we will be attempting to predict loan status, I started with a count plot of the loan statuses. There are many more loans that are Fully Paid compared to Charged off:
+
+![](images/status_count.png)
+
+I then wanted to tsee the distribution of the loan amounts:
+
+![](images/loanamnt_count.png)
 
 
 I then wanted to see if there was a relationship between the **loan status and the loan amount**. It seems that there's a slight increase in likelihood of the loan not being paid off if it's higher, which makes sense..
-
-
+![](images/boxplt_status_amnt.png)
 
 
 I dove deeper by looking at the summary statistics of the loan status and loan amount. This confirmed the initial findings:
+![](images/stats_status_amnt.png)
 
-
-
-
-**correlations**
-To get a sense of the correlations for all the numeric columns, I created the heatmap below. The lighter the color, the more positevly correlated the two features are. There are very strong correlations between features like "pub_rec_bankruptcies", "open_acc", "total_acc", "int_rate", "annual_income", and more. These all make logical sense given the context and description. 
-
-
-
-For example, there's an almost perfect correlation with the "installment" and "loan_amnt" feature, which makes sense given that “installment” is the monthly payment owed by the borrower if the loan originates. I visualized these two features below:
 
 
 Next I wanted to visualize the **“grade”** (LC assigned loan grade) and the rate of the loans being paid off. As expected, the better grades (ex. A) have a much higher likelihood of being paid off compared to lower grades (ex. G). 
 
+![](images/count_grade.png)
 
-I dug deeper into the F and G subgrades to see if there was a clear distinction between the subgrades of the grades. There was a general trend but nothing too different. 
+
+I then wanted to visualize the **subgrade** to see if there was a clear distinction between the subgrades of the grades.
+![](images/count_subgrade.png)
+
+
+I dug deeper into the F and G subgrades because it's not depicted well in the graph above, and there is a lot lower frequency. 
+![](images/count_subgrade_FG.png)
+
+
+### correlations
+
+To get a sense of the correlations for all the numeric columns, I created the heatmap below. The lighter the color, the more positevly correlated the two features are. There are very strong correlations between features like "pub_rec_bankruptcies", "open_acc", "total_acc", "int_rate", "annual_income", and more. These all make logical sense given the context and description. 
+
+![](images/corr_heat.png)
+
+
+For example, there's an almost perfect correlation with the "installment" and "loan_amnt" feature, which makes sense given that “installment” is the monthly payment owed by the borrower if the loan originates. I visualized these two features below:
+
+![](images/scatter_installment_amnt.png)
+
+
+
+I then wanted to see the correlations of the numeric columns to whether a loan was repaid. This correlation is useful for later on in the project...
+![](images/corr_repaid.png)
 
 ## Feature Engineering and Data Preprocessing:
+I found that the following columns had null values:
 
-I dropped the sub-grades and made "grade" into dummy variables. I did this because to have both would be redundant, and I believe "grade" captures the overall trend of the loans repaid ratio. There is not much difference between the subgrades, and there are also many subgrades with low frequency.
+emp_title with 22927 null values, emp_length with 18301 null values, title with 1756 null values, revol_util with 276 null values, mort_acc with 37795 null values,
+and pub_rec_bankruptcies with 535 null values.
 
 
-
-Greated a multiple Regression model to fill in Mort_acc based off the 3 highest correlated features. MAE of 0.113
+Given that mort_acc was the most positively correlated to a loan being repaid and it had more than ~9.5% of the rows values missing, I made sure to fill in the null values. I created a multiple Regression model to fill in mort_acc based off the 3 highest correlated features, which is the total accounts, annual income, and loan amount.  MAE of 0.113
 
 
 
 The scale of the target variable (mort_acc in your case) plays a crucial role in determining whether an MAE is good. If the range of mort_acc is large (e.g., from 0 to 34 as you've indicated), then an MAE of 0.11155 might be considered very good as it represents a small deviation relative to the range of the data.
 
 
+
+I dropped the sub-grades and made "grade" into dummy variables. I did this because to have both would be redundant, and I believe "grade" captures the overall trend of the loans repaid ratio. There is not much difference between the subgrades, and there are also many subgrades with low frequency.
 
 
 dropped "title" (same as purpose)
