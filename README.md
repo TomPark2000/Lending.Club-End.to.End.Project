@@ -1,7 +1,14 @@
 # Lending Club End-to-End Project
 
 # Overview
-This project utilizes a dataset from LendingClub, a US-based peer-to-peer lending company, to build a deep learning model that predicts whether borrowers will pay back their loans. **The primary objective of this project is to aid LendingClub in assessing the risk of loan applications, enhancing decision-making processes for loan approvals.** The model is developed using Keras, a powerful deep learning library. The methodologies involded include Data Preprocessing, feature engineering, and a neural network model.
+This project utilizes a dataset from LendingClub, a US-based peer-to-peer lending company, to build a deep learning model that predicts whether borrowers will pay back their loans. **The primary objective of this project is to aid LendingClub in assessing the risk of loan applications, enhancing decision-making processes for loan approvals.** The model is developed using Keras, a powerful deep learning library. The methodologies involded include Data Preprocessing, Feature Engineering, several Multi-Regression models, Polynomial Features, a Neural Network Model, and more.
+
+
+Given the context of predicting whether a borrower will pay back their loan using data from LendingClub, I focused on improving precision assuming that the priority is to avoid bad loans and minimizing credit losses.  The precision is important  if the lender's strategy is highly risk-averse or if the lender's capital reserves are limited since the precision measures the accuracy of positive predictions.
+
+**My model had a precision of 99% for loans that were predicted to be defaulted vs. were actually defaulted, and a precision of 88% for loans that were predicted to be paid off vs. were actually paid off.**
+
+
 
 ***Data Overview**
 
@@ -211,12 +218,12 @@ All input features were scaled using **MinMaxScaler** from scikit-learn. This st
 I evaluated my model using a classification report and confusion matrix. 
 
 
-**Given the context of predicting whether a borrower will pay back their loan using data from LendingClub, I focused on improving precision assuming that the priority is to avoid bad loans and minimizing credit losses.**  The precision is important  if the lender's strategy is highly risk-averse or if the lender's capital reserves are limited. This is also the more likely use-case 
+**Given the context of predicting whether a borrower will pay back their loan using data from LendingClub, I focused on improving precision assuming that the priority is to avoid bad loans and minimizing credit losses.**  The precision is important  if the lender's strategy is highly risk-averse or if the lender's capital reserves are limited since precision measures the accuracy of positive predictions.
 
 ![](images/model_eval.png)
 
 
-Precision measures the accuracy of positive predictions. In this case, for 0, it indicates that 99% of loans that were predicted to be defaulted was actually defaulted. And for 1, it indicates that 88% of loans that were predicted to be paid off was actually paid off.
+In this case, for 0, it indicates that 99% of loans that were predicted to be defaulted was actually defaulted. And for 1, it indicates that 88% of loans that were predicted to be paid off was actually paid off.
 
 <br>
 
