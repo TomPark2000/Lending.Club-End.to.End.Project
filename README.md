@@ -6,11 +6,11 @@ This project utilizes a dataset from LendingClub, a US-based peer-to-peer lendin
 
 Given the context of predicting whether a borrower will pay back their loan using data from LendingClub, I focused on improving precision assuming that the priority is to avoid bad loans and minimizing credit losses.  The precision is important  if the lender's strategy is highly risk-averse or if the lender's capital reserves are limited since the precision measures the accuracy of positive predictions.
 
-**My model had a precision of 99% for loans that were predicted to be defaulted vs. were actually defaulted, and a precision of 88% for loans that were predicted to be paid off vs. were actually paid off.**
+<ins>**My model had a precision of 99% for loans that were predicted to be defaulted vs. were actually defaulted, and a precision of 88% for loans that were predicted to be paid off vs. were actually paid off.**<ins>
 
 
 
-***Data Overview**
+### Data Overview
 
 The dataset is a subset of the LendingClub data available on Kaggle, which has been specially modified to demonstrate feature engineering techniques. It includes various attributes of loans and borrowers such as loan amount, interest rate, borrower"s employment length, credit history, and more.
 
