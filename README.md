@@ -3,7 +3,7 @@
 # Overview
 This project utilizes a dataset from LendingClub, a US-based peer-to-peer lending company, to build a deep learning model that predicts whether borrowers will pay back their loans. **The primary objective of this project is to aid LendingClub in assessing the risk of loan applications, enhancing decision-making processes for loan approvals.** The model is developed using Keras, a powerful deep learning library. The methodologies involded include Data Preprocessing, feature engineering, and a neural network model.
 
-***Data Overview***
+***Data Overview**
 
 The dataset is a subset of the LendingClub data available on Kaggle, which has been specially modified to demonstrate feature engineering techniques. It includes various attributes of loans and borrowers such as loan amount, interest rate, borrower"s employment length, credit history, and more.
 
@@ -16,7 +16,7 @@ The dataset includes: loan amount, loan term, interest rate, monthly payment, lo
 
 
 # <ins>EDA, Feature Engineering, and Data Preprocessing<ins> 
-### <ins>Initial EDA<ins>
+###  <ins>Initial EDA<ins>
 
 I visualized several the relationships in order to get a better understanding of the features and the correlations of those features.
 
@@ -58,7 +58,7 @@ I noticed that for both debt to income ratio and revolving utilization rate, the
 ![](images/revolvUtil_dit.png)
 
 
-### <ins>Correlations<ins>
+###  <ins>Correlations<ins>
 
 To get a sense of the correlations for all the numeric columns, I created the heatmap below. The lighter the color, the more positevly correlated the two features are. There are very strong correlations between features like Number of public record bankruptcies, number of open accounts, total number of accounts, interest rate on the loan, report annual income, and more. These all make logical sense given the context and description. 
 
@@ -76,6 +76,8 @@ I then wanted to see the correlations of the numeric columns to whether a loan w
 ![](images/corr_repaid.png)
 
 
+**Side Note**: even though some features are not highly correlated to whether a loan was repaid, it can still be significant because it provides insights on other feature. Also, sometimes when they're integrated with other features (ex. in a polynomial feature), it becomes significant and provides insights on complex relationships.  
+
 
 # <ins>Feature Engineering and Data Preprocessing:<ins>
 
@@ -87,7 +89,7 @@ and pub_rec_bankruptcies with 535 null values.
 
 <br>
 
-### <ins>Filling in Data with Multi-Regression Models<ins>
+###  <ins>Filling in Data with Multi-Regression Models<ins>
 Given that mort_acc was the most positively correlated to a loan being repaid (6.9% correlation) and it had more than ~9.5% of the rows values missing, I made sure to fill in the null values. I created a Multi- Regression model to fill in mort_acc based off the 8 highest correlated features, which included the total accounts (38%), annual income (24%), and loan amount (22%). This model had a Mean Absolute Error of 1.45, which is not badsince it represents a small deviation relative to the range of 1-34. I then used the model to predict the missing values for mort_acc.
 <br>
 
@@ -99,7 +101,7 @@ I also made a seperate Multi-Regression model for both revol_util (1.1% correlat
 * for Number of public record bankruptcies ("pub_rec_bankruptices") - correlated features included "pub_rec (70%), revolv_bal (-12%), loan amount (-11%), and interest rate (5%). This model had a Mean Absolute Error of 1.45, which is not badsince it represents a small deviation relative to the range of 1-34. I then used the model to predict the missing values for mort_acc.
 
 
-### <ins>Feature Engineering<ins>
+###  <ins>Feature Engineering<ins>
 
 * For the revolving utilization rate, after filling in the missing values with my Multi-Regression model, I binned the values into 'Low', 'Medium', 'High', and 'Excessive'. The respective values for those beins were 0, 30, 70, 100, and 100+. I did this because the values in the bin have a similar impact, and I found that my Neural Network model performed better after binning this feature.
 
@@ -114,7 +116,7 @@ I also made a seperate Multi-Regression model for both revol_util (1.1% correlat
 * I extracted the numbers from "term", which was previously formatted as "## months", and then turned it into a numerical column.
 
 
-### <ins>Removing Features & Rows<ins>
+###  <ins>Removing Features & Rows<ins>
 
   
 * I dropped the row that had a debt to income ratio ("dti") of 9999, which is likely due to an error.  
@@ -137,7 +139,7 @@ After doing all of this, there were no more missing values or extreme outliers! 
   
 I split the data into training and testing data sets...
 
-### <ins>Polynomial Features + Important relationships<ins>
+###  <ins>Polynomial Features + Important relationships<ins>
 
 To enhance the model's ability to detect complex patterns and interactions between features that might not be evident through linear analysis alone, I generated polynomial features. This involves creating new features that are combinations of the existing features raised to various powers. I grouped 3 polynomial features:
 
@@ -162,7 +164,7 @@ To enhance the model's ability to detect complex patterns and interactions betwe
 
 <br>
 
-### <ins> Model Architecture and Design, Feature Scaling, and more <ins>
+###  <ins> Model Architecture and Design, Feature Scaling, and more <ins>
 
 The neural network architecture is built using Keras and consists of multiple layers designed to effectively process and learn from the Lending Club dataset. The model includes:
 
@@ -174,7 +176,7 @@ The neural network architecture is built using Keras and consists of multiple la
 
 <br>
 
-**Scaling**
+### <ins>Scaling<ins>
 
 All input features were scaled using StandardScaler from scikit-learn. This step is important as it standardizes the features to have zero mean and unit variance, ensuring that all inputs contribute equally to the model's predictions. It also helps in speeding up the convergence during training by providing a smoother landscape for the optimizer to navigate.
 
@@ -182,7 +184,7 @@ All input features were scaled using StandardScaler from scikit-learn. This step
 
 <br>
 
-**Model Training and Optimization**
+### <ins>Model Training and Optimization<ins>
 
 * To address the issue of class imbalance, where the number of loans paid off (~80%) is much higher than those that default (~20%), I implemented cost=sensitive learning where the model will penalize misclassification of the minority class (loan defaulted) more than the majority class (loan paid off). I implemented a ratio of 1 : 0.85 respectively, as I found that this resulted in the best model performance
 
@@ -199,9 +201,9 @@ All input features were scaled using StandardScaler from scikit-learn. This step
 
 <br>
 
-**Evaluation and Metrics**
+### <ins>Evaluation and Metrics<ins>
 
-I evaluated my model using a classification report and confusion matrix. Given the context of predicting whether a borrower will pay back their loan using data from LendingClub, I focused on improving precision because predicting that a loan would be repaid leads to a financial loss when it isn't.  The precisionw will be signficant if the lender's strategy is highly risk-averse or if the lender's capital reserves are limited.
+I evaluated my model using a classification report and confusion matrix. Given the context of predicting whether a borrower will pay back their loan using data from LendingClub, I focused on improving precision because predicting that a loan would be repaid leads to a financial loss when it isn't.  The precision will be signficant if the lender's strategy is highly risk-averse or if the lender's capital reserves are limited.
 
 ![](images/model_eval.png)
 
@@ -209,18 +211,45 @@ I evaluated my model using a classification report and confusion matrix. Given t
 Precision measures the accuracy of positive predictions. In this case, for 0, it indicates that 98% of loans that were predicted to be defaulted was actually defaulted. And for 1, it indicates that 88% of loans that were predicted to be paid off was actually paid off.
 
 
+### <ins>Evaluation and Metrics<ins>
+
+I chose a random user in the dataset, and some of the features of this user was: 
+
+- loan = $7000, 36 month term, 7.89% interest rate and $219 installment
+- user = lives in Wyoming, 
 
 
 
+###  <ins>Side-Note: Feature Importance<ins>
+
+Before training the Deep Neural Network model, I created a simple Random Tree Forest model in order to find feature importance. The most important features included: Zipcodes of 937, 116, and 866, interest rate, debt to income ratio, and revolving credit utilization. Although this did not cause me to remove any features, it suppored the reasoning for my polynomial features. 
+
+
+# <ins>Other things I tried but did NOT implement<ins>
+
+- Different architecture for the model (hidden layers and number of neruons)
+
+  
+- Different learning rates for the model
+
+  
+- Dfiferent class weights for the model
+  
+
+- Categorized the annual income by classes from the Census Bureau"s 2022 report for Income in the United States,, with th Lower class: less than or equal to $30,000, Lower-middle class:  30,001– 58,020, Middle class:  58,021– 94,000, Upper-middle class:  94,001– 153,000, and Upper class: greater than $153,000. The logic was that there are too many unique incomes, but it also meant that the model wouldn't ingest the linear relationships with annual income and it reduced the model performance
+
+  
+- Deleted the top 0.05% of the values for Debt-to-income ratio and Revolving Credit Utilization because there are several outliers that are very high.  However, there might be an explanation for these, so I did not delete the outliers except for the 99999 for dti. Deleting these outliers also reduced the overall model performance
+
+  
+- After extracting the year from earliest credit account, I then categorized by decade. However, the model wouldn't ingest the linear relationships with the years and it reduced the model performance
+
+  
+- Deleted the low-correlated features with loan_repaid (ex. employment length). However, this means the model misses out on other relationships and reduced the model performance (and it didn't allow for polynomial features)
+
+  
 
 
 
-
-Other things I tried to do
-
-
-Categorized annual_inc -> there are too many unique incoms so I categorized the income by classes from the Census Bureau"s 2022 report for Income in the United States, with Lower class: less than or equal to $30,000, Lower-middle class:  30,001– 58,020, Middle class:  58,021– 94,000, Upper-middle class:  94,001– 153,000, and Upper class: greater than $153,000
-Dti -> several outliers that are unrealistic or too high. For ex. 9999, +6000, etc. So I deleted the top 0.05% of the values
-earliest_cr_line -> Extracted the year from earliest_cr_line then categorized by decade
 
 
