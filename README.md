@@ -227,7 +227,7 @@ In this case, for 0, it indicates that 99% of loans that were predicted to be de
 
 <br>
 
-If I wanted the model to focus on improving recall (more specifically the recall for defaulting), I would do 2 things:
+<ins>If I wanted the model to focus on improving recall (more specifically the recall for defaulting), I would do 2 things:<ins>
 
 1. Change the ratio of the classes so that the model would be penalized more for misclassifying a loan that was defaulted. I would change the ratio to 1 for a loan default, and 0.7 for a loan being paid off.
 2. Increase the Classification Threshold. Right now its at 0.5 (50%), but I would increase it to 0.6 or 0.7.
