@@ -20,11 +20,15 @@ The dataset includes: loan amount, loan term, interest rate, monthly payment, lo
 
 I visualized several the relationships in order to get a better understanding of the features and the correlations of those features.
 
-Since we will be attempting to predict loan status, I started with a count plot of the loan statuses. There are many more loans that are Fully Paid compared to Charged off:
+Since we will be attempting to predict loan status, I started with a count plot of the loan statuses and that summary statistics. There are many more loans that are Fully Paid compared to Charged off:
 
 ![](images/status_count.png)
 
-I then wanted to tsee the distribution of the loan amounts:
+
+![](images/stats_status_amnt.png)
+
+
+I then wanted to to see the distribution of the loan amounts:
 
 ![](images/loanamnt_count.png)
 
@@ -143,23 +147,26 @@ I split the data into training and testing data sets...
 
 To enhance the model's ability to detect complex patterns and interactions between features that might not be evident through linear analysis alone, I generated polynomial features. This involves creating new features that are combinations of the existing features raised to various powers. I grouped 3 polynomial features:
 
-1. Insights on Credit Worthiness -> I made a polynomial feature with total accounts, open accounts, year of first credit account, derogatory public records, and number of bankruptcies. By integrating these features, I can assess the borrower's credit history in terms of length and depth, but also their ability to manage and maintain their financial obligations without resorting to financial issues. For example:
+1. **Insights on Credit Worthiness** -> I made a polynomial feature with total accounts, open accounts, year of first credit account, derogatory public records, and number of bankruptcies. By integrating these features, I can assess the borrower's credit history in terms of length and depth, but also their ability to manage and maintain their financial obligations without resorting to financial issues. For example:
    -  Analyzing total_acc and open_acc together provides a perspective on the borrower's experience with credit and their current credit utilization. A high number of total accounts with a moderate number of open accounts suggests both experience and responsible management
    -  Both pub_rec and pub_rec_bankruptcies focus on the borrower’s encounters with legal financial issues
 
 <br>
 
-2. Insights on Financial Health and Stability -> I made a polynomial feature with annual income, debt-to-income ratio, and number of mortgage accounts. Integrating these features provides a comprehensive view of a borrower’s financial health. For example:
+2. **Insights on Financial Health and Stability** -> I made a polynomial feature with annual income, debt-to-income ratio, and number of mortgage accounts. Integrating these features provides a comprehensive view of a borrower’s financial health. For example:
    -  The combination of annual_inc and dti gives lenders insights into not just what the borrower earns, but also how much of that income is already obligated towards debt repayment
    -  The mort_acc feature helps lenders understand a borrower's experience in managing significant and long-term debts like mortgages. Successfully handling mortgage payments is often seen as a sign of financial responsibility and stability.
    -  High annual income, low DTI, and a healthy number of mortgage accounts typically managed without delinquency indicate a borrower who is likely financially stable and a lower risk for lenders.
 
 <br>
 
-3. Insights on Borrower's Current Debt Load & Obligations -> I made a polynomial feature with the interest rate on the loan, the monthly payment owed ("installment"), total credit revolving balance, and debt-to-income ratio. Integrating these features enables lenders to understand the borrower’s current debt load and their handling of debt obligations. For example:
+3. **Insights on Borrower's Current Debt Load & Obligations** -> I made a polynomial feature with the interest rate on the loan, the monthly payment owed ("installment"), total credit revolving balance, and debt-to-income ratio. Integrating these features enables lenders to understand the borrower’s current debt load and their handling of debt obligations. For example:
    -  The loan_amnt and installment features when viewed together help gauge how significant the borrower's current loan is relative to their regular payments
    -  revol_bal provides a snapshot of the borrower's utilization of revolving credit facilities, mainly credit cards. High revolving balances might indicate reliance on credit for day-to-day expenses, which can be a red flag for potential financial instability.
    -   Effective management is indicated by a reasonable balance of loan amount and installments, a controlled DTI, and managed revolving balances. 
+
+
+![](images/PplyFeat.png)
 
 
 <br>
@@ -178,15 +185,13 @@ The neural network architecture is built using Keras and consists of multiple la
 
 ### <ins>Scaling<ins>
 
-All input features were scaled using StandardScaler from scikit-learn. This step is important as it standardizes the features to have zero mean and unit variance, ensuring that all inputs contribute equally to the model's predictions. It also helps in speeding up the convergence during training by providing a smoother landscape for the optimizer to navigate.
-
-
+All input features were scaled using **MinMaxScaler** from scikit-learn. This step is crucial as it normalizes the features to a range between 0 and 1, ensuring that all inputs contribute uniformly to the model's predictions and helping to maintain numerical stability during training by avoiding issues with large value scales.
 
 <br>
 
 ### <ins>Model Training and Optimization<ins>
 
-* To address the issue of class imbalance, where the number of loans paid off (~80%) is much higher than those that default (~20%), I implemented cost=sensitive learning where the model will penalize misclassification of the minority class (loan defaulted) more than the majority class (loan paid off). I implemented a ratio of 1 : 0.85 respectively, as I found that this resulted in the best model performance
+* To address the issue of class imbalance, where the number of loans paid off (~80%) is much higher than those that default (~20%), I implemented cost=sensitive learning where the model will penalize misclassification of the minority class (loan defaulted) more than the majority class (loan paid off). I implemented a ratio of 1 : 0.9 respectively, as I found that this resulted in the best model performance for my goal.
 
 <br>
 
@@ -203,22 +208,39 @@ All input features were scaled using StandardScaler from scikit-learn. This step
 
 ### <ins>Evaluation and Metrics<ins>
 
-I evaluated my model using a classification report and confusion matrix. Given the context of predicting whether a borrower will pay back their loan using data from LendingClub, I focused on improving precision because predicting that a loan would be repaid leads to a financial loss when it isn't.  The precision will be signficant if the lender's strategy is highly risk-averse or if the lender's capital reserves are limited.
+I evaluated my model using a classification report and confusion matrix. 
+
+
+**Given the context of predicting whether a borrower will pay back their loan using data from LendingClub, I focused on improving precision assuming that the priority is to avoid bad loans and minimizing credit losses.**  The precision is important  if the lender's strategy is highly risk-averse or if the lender's capital reserves are limited. This is also the more likely use-case 
 
 ![](images/model_eval.png)
 
 
-Precision measures the accuracy of positive predictions. In this case, for 0, it indicates that 98% of loans that were predicted to be defaulted was actually defaulted. And for 1, it indicates that 88% of loans that were predicted to be paid off was actually paid off.
+Precision measures the accuracy of positive predictions. In this case, for 0, it indicates that 99% of loans that were predicted to be defaulted was actually defaulted. And for 1, it indicates that 88% of loans that were predicted to be paid off was actually paid off.
+
+<br>
+
+If I wanted the model to focus on improving recall (more specifically the recall for defaulting), I would do 2 things:
+
+1. Change the ratio of the classes so that the model would be penalized more for misclassifying a loan that was defaulted. I would change the ratio to 1 for a loan default, and 0.7 for a loan being paid off.
+2. Increase the Classification Threshold. Right now its at 0.5 (50%), but I would increase it to 0.6 or 0.7.
 
 
-### <ins>Evaluation and Metrics<ins>
+Improving recall would be relevant if the goal is to approve as many loans as possible without taking on excessive risk (increasing loan volume). This is because you'd want to ensure that few viable loans are rejected, and recall represents the proportion of actual repaid loans that were correctly predicted by the model.
+
+<br>
+
+### <ins>Random Customer Prediction<ins>
 
 I chose a random user in the dataset, and some of the features of this user was: 
 
-- loan = $7000, 36 month term, 7.89% interest rate and $219 installment
-- user = lives in Wyoming, 
+- loan = $7000 loan, 36 month term, 7.89% interest rate and $219 installment
+- user = $55K income, 3.6 debt-to-income ratio, 8 open accounts, 1 file of bankruptcy, purpose is for credit card, and lives in Wyoming
 
 
+The model predicted that this user would pay off the loan, and the model was correct!
+
+<br>
 
 ###  <ins>Side-Note: Feature Importance<ins>
 
