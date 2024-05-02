@@ -6,7 +6,7 @@ This project utilizes a dataset from LendingClub, a US-based peer-to-peer lendin
 
 Given the context of predicting whether a borrower will pay back their loan using data from LendingClub, I focused on improving precision assuming that the priority is to avoid bad loans and minimizing credit losses.  The precision is important  if the lender's strategy is highly risk-averse or if the lender's capital reserves are limited since the precision measures the accuracy of positive predictions.
 
-<ins>**My model had a precision of 99% for loans that were predicted to be defaulted vs. were actually defaulted, and a precision of 88% for loans that were predicted to be paid off vs. were actually paid off.**<ins>
+<ins>**My model shows a high precision for predicting defaults (label 0) at 99%, which indicates that when it predicts a loan will not be paid back, it is correct 99% of the time. For loans predicted to be paid back (label 1), the precision is lower at 88%, but the recall is very high at 100% (which means the model is very good at identifying loans that will be paid back).**<ins>
 
 
 
@@ -223,17 +223,20 @@ I evaluated my model using a classification report and confusion matrix.
 ![](images/model_eval.png)
 
 
-In this case, for 0, it indicates that 99% of loans that were predicted to be defaulted was actually defaulted. And for 1, it indicates that 88% of loans that were predicted to be paid off was actually paid off.
+My model shows a high precision for predicting defaults (label 0) at 99%, which indicates that when it predicts a loan will not be paid back, it is correct 99% of the time. However, the recall for defaults is quite low at 44%, meaning the model only identifies 44% of all actual defaults. This suggests that while the predictions for defaults that are made are very reliable, the model misses more than half of the actual default cases. 
+
+
+For loans predicted to be paid back (label 1), the precision is lower at 88%, but the recall is very high at 100% (which means the model is very good at identifying loans that will be paid back)
 
 <br>
 
-<ins>If I wanted the model to focus on improving recall (more specifically the recall for defaulting), I would do 2 things:<ins>
+<ins>If If wanted the model to focus on improving recall for predicting defaults, I would do 2 things:<ins>
 
 1. Change the ratio of the classes so that the model would be penalized more for misclassifying a loan that was defaulted. I would change the ratio to 1 for a loan default, and 0.7 for a loan being paid off.
 2. Increase the Classification Threshold. Right now its at 0.5 (50%), but I would increase it to 0.6 or 0.7.
 
 
-Improving recall would be relevant if the goal is to approve as many loans as possible without taking on excessive risk (increasing loan volume). This is because you'd want to ensure that few viable loans are rejected, and recall represents the proportion of actual repaid loans that were correctly predicted by the model.
+However, doing both of these would decrease precision. Improving recall would be relevant if the goal is to approve as many loans as possible without taking on excessive risk (increasing loan volume). This is because you'd want to ensure that few viable loans are rejected, and recall represents the proportion of actual repaid loans that were correctly predicted by the model.
 
 <br>
 
