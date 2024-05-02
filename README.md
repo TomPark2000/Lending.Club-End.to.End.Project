@@ -166,7 +166,7 @@ To enhance the model's ability to detect complex patterns and interactions betwe
    -   Effective management is indicated by a reasonable balance of loan amount and installments, a controlled DTI, and managed revolving balances. 
 
 
-![](images/PplyFeat.png)
+![](images/PolyFeat.png)
 
 
 <br>
