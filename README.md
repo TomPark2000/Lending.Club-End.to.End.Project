@@ -19,7 +19,7 @@ The dataset is a subset of the LendingClub data available on Kaggle, which has b
 
 <br>
 
-The dataset includes: loan amount, loan term, interest rate, monthly payment, loan status, loan grade, loan subgrade, employment title, employment length, home ownership status, annual income, income verification status, loan issue date, loan purpose, loan title, borrower"s state and zipcode, debt-to-income ratio, earliest credit line, number of open credit accounts, number of derogatory public records, total revolving credit balance, revolving credit utilization, total credit lines, initial loan listing status, application type, number of mortgage accounts, and number of public record bankruptcies.
+The dataset includes: loan amount, loan term, interest rate, monthly payment, loan status, loan grade, loan subgrade, employment title, employment length, home ownership status, annual income, income verification status, loan issue date, loan purpose, loan title, borrower's state and zipcode, debt-to-income ratio, earliest credit line, number of open credit accounts, number of derogatory public records, total revolving credit balance, revolving credit utilization, total credit lines, initial loan listing status, application type, number of mortgage accounts, and number of public record bankruptcies.
 
 <br>
 
@@ -42,7 +42,7 @@ I then wanted to to see the distribution of the loan amounts:
 ![](images/loanamnt_count.png)
 
 
-I then wanted to see if there was a relationship between the **loan status and the loan amount**. It seems that there"s a slight increase in likelihood of the loan not being paid off if it"s higher, which makes sense..
+I then wanted to see if there was a relationship between the **loan status and the loan amount**. It seems that there"s a slight increase in likelihood of the loan not being paid off if it's higher, which makes sense..
 ![](images/boxplt_status_amnt.png)
 
 
@@ -78,7 +78,7 @@ To get a sense of the correlations for all the numeric columns, I created the he
 ![](images/corr_heat.png)
 
 
-For example, there"s an almost perfect correlation with the "installment" and "loan_amnt" feature, which makes sense given that “installment” is the monthly payment owed by the borrower if the loan originates. I visualized these two features below:
+For example, there's an almost perfect correlation with the "installment" and "loan_amnt" feature, which makes sense given that “installment” is the monthly payment owed by the borrower if the loan originates. I visualized these two features below:
 
 ![](images/scatter_installment_amnt.png)
 
