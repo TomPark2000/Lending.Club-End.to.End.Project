@@ -1,7 +1,7 @@
 # Lending Club End-to-End Project
 
 # Overview
-This project utilizes a dataset from LendingClub, a US-based peer-to-peer lending company, to build a deep learning model that predicts whether borrowers will pay back their loans. **The primary objective of this project is to aid LendingClub in assessing the risk of loan applications, enhancing decision-making processes for loan approvals.** The model is developed using Keras, a powerful deep learning library. The methodologies involded include Data Preprocessing, Feature Engineering, several Multi-Regression models, Polynomial Features, a Neural Network Model, and more.
+This project utilizes a dataset from LendingClub, a US-based peer-to-peer lending company. **The primary objective of this project is to aid LendingClub by creating an algorithm that predicts whether a borrower will pay back their loan and enhances decision-making processes for loan approvals.** The model is developed using Keras, a powerful deep learning library. The methodologies involved include a Deep Neural Network Model, Data Preprocessing, Feature Engineering, several Multi-Regression models, Polynomial Features, and more.
 
 
 Given the context of predicting whether a borrower will pay back their loan using data from LendingClub, I focused on improving precision assuming that the priority is to avoid bad loans and minimizing credit losses.  The precision is important  if the lender's strategy is highly risk-averse or if the lender's capital reserves are limited since the precision measures the accuracy of positive predictions.
