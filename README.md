@@ -1,7 +1,7 @@
 # Lending Club End-to-End Project
 
 # Overview
-This project utilizes a dataset from LendingClub, a US-based peer-to-peer lending company. **The primary objective of this project is to aid LendingClub by creating an algorithm that predicts whether a borrower will pay back their loan and enhances decision-making processes for loan approvals.** The model is developed using Keras, a powerful deep learning library. The methodologies involved include a Deep Neural Network Model, Data Preprocessing, Feature Engineering, several Multi-Regression models, Polynomial Features, and more.
+This project utilizes a dataset from LendingClub, a US-based peer-to-peer lending company. **The primary objective of this project is to aid LendingClub by creating an algorithm that predicts whether a borrower will pay back their loan, thereby enhancing decision-making processes for loan approvals.** The model is developed using Keras, a powerful deep learning library. The methodologies involved include a Deep Neural Network Model, Data Preprocessing, Feature Engineering, several Multi-Regression models, Polynomial Features, and more.
 
 
 Given the context of predicting whether a borrower will pay back their loan using data from LendingClub, I focused on improving precision assuming that the priority is to avoid bad loans and minimizing credit losses.  The precision is important  if the lender's strategy is highly risk-averse or if the lender's capital reserves are limited since the precision measures the accuracy of positive predictions.
@@ -14,12 +14,12 @@ Given the context of predicting whether a borrower will pay back their loan usin
 
 ### Data Overview
 
-The dataset is a subset of the LendingClub data available on Kaggle, which has been specially modified to demonstrate feature engineering techniques. It includes various attributes of loans and borrowers such as loan amount, interest rate, borrower"s employment length, credit history, and more.
+The dataset is a subset of the LendingClub data available on Kaggle, which has been specially modified to demonstrate feature engineering techniques. It includes various attributes of loans and borrowers such as loan amount, interest rate, borrower's employment length, credit history, and more.
 
 
 <br>
 
-The dataset includes: loan amount, loan term, interest rate, monthly payment, loan status, loan grade, loan subgrade, employment title, employment length, home ownership status, annual income, income verification status, loan issue date, loan purpose, loan title, borrower's state and zipcode, debt-to-income ratio, earliest credit line, number of open credit accounts, number of derogatory public records, total revolving credit balance, revolving credit utilization, total credit lines, initial loan listing status, application type, number of mortgage accounts, and number of public record bankruptcies.
+The dataset includes: loan amount, loan term, interest rate, monthly payment, loan status, loan grade, loan subgrade, employment title, borrower's employment length, home ownership status, annual income, income verification status, loan issue date, loan purpose, loan title, borrower's state and zipcode, debt-to-income ratio, earliest credit line, number of open credit accounts, number of derogatory public records, total revolving credit balance, revolving credit utilization, total credit lines, initial loan listing status, application type, number of mortgage accounts, and number of public record bankruptcies.
 
 <br>
 
@@ -106,7 +106,7 @@ and pub_rec_bankruptcies with 535 null values.
 Given that mort_acc was the most positively correlated to a loan being repaid (6.9% correlation) and it had more than ~9.5% of the rows values missing, I made sure to fill in the null values. I created a Multi- Regression model to fill in mort_acc based off the 8 highest correlated features, which included the total accounts (38%), annual income (24%), and loan amount (22%). This model had a Mean Absolute Error of 1.45, which is not badsince it represents a small deviation relative to the range of 1-34. I then used the model to predict the missing values for mort_acc.
 <br>
 
-I also made a seperate Multi-Regression model for both revol_util (1.1% correlation with a loan being repaid) and pub_rec_bankruptices, which didn"t have many missing values but might have an impact on other features that in turn impact whether a loan is paid off. I created the model to fill in missing values based off the the highest correlated features for the respective feature. For example:
+I also made a separate Multi-Regression model for both revol_util (1.1% correlation with a loan being repaid) and pub_rec_bankruptices, which did not have many missing values but might have an impact on other features that in turn impact whether a loan is paid off. I created the model to fill in missing values based off the the highest correlated features for the respective feature. For example:
 
 * for revolving line utilization rate ("revol_util") - correlated features included "pub_rec (70%), revolv_bal (-12%), loan amount (-11%), and interest rate (5%). This model had a Mean Absolute Error of 1.45, which is not badsince it represents a small deviation relative to the range of 1-34. I then used the model to predict the missing values for mort_acc.
 
@@ -124,7 +124,7 @@ I also made a seperate Multi-Regression model for both revol_util (1.1% correlat
 
 * For the home ownership feature, the "Mortgage" and "Rent" option had the most values, followed by "Own" with 38k, "Other" with 112, "None" with 31, and "Any" with 3. I grouped "None" and "Any" into "Other" since there"s a low count and to make the data cleaner. 
 
-* For the earliest credit line ("earliest_cr_line") feature, I extracted the year. The column previously gave the month, an example being "Jun-1990", however I decided that the year was going to give me plenty of information and I didn"t want to overcomplicate my model.
+* For the earliest credit line ("earliest_cr_line") feature, I extracted the year. The column previously gave the month, an example being "Jun-1990", however I decided that the year was going to give me plenty of information and I did not want to overcomplicate my model.
 
 * I extracted the numbers from "term", which was previously formatted as "## months", and then turned it into a numerical column.
 
@@ -186,7 +186,7 @@ The neural network architecture is built using Keras and consists of multiple la
 
 - Input Layer: Matches the number of input features after preprocessing and feature engineering.
 - Dense Layers: Multiple dense layers with ReLU (Rectified Linear Unit) activation functions. ReLU is chosen for its ability to provide non-linear transformation without the vanishing gradient problem, enhancing the learning capabilities for deep networks.
-- Dropout Layer: Incorporated to mitigate overfitting, a common challenge in deep learning. By randomly dropping a percentage of the neurons during training (set at 20% in this project), it ensures that the model does not rely on any single neuron, thus generalizing better to new, unseen data.
+- Dropout Layers: Incorporated to mitigate overfitting, a common challenge in deep learning. By randomly dropping a percentage of the neurons during training (set at 20% in this project), it ensures that the model does not rely on any single neuron, thus generalizing better to new, unseen data.
 
 
 
@@ -194,7 +194,7 @@ The neural network architecture is built using Keras and consists of multiple la
 
 ### <ins>Scaling<ins>
 
-All input features were scaled using **MinMaxScaler** from scikit-learn. This step is crucial as it normalizes the features to a range between 0 and 1, ensuring that all inputs contribute uniformly to the model's predictions and helping to maintain numerical stability during training by avoiding issues with large value scales.
+All input features were scaled using **MinMaxScaler** from scikit-learn. This step is crucial as it normalizes the features to a range between 0 and 1. This normalization ensures that all inputs contribute uniformly to the model's predictions, helping to maintain numerical stability during training by avoiding issues with large value scales.
 
 <br>
 
@@ -256,7 +256,7 @@ The model predicted that this user would pay off the loan, and the model was cor
 
 ###  <ins>Side-Note: Feature Importance<ins>
 
-Before training the Deep Neural Network model, I created a simple Random Tree Forest model in order to find feature importance. The most important features included: Zipcodes of 937, 116, and 866, interest rate, debt to income ratio, and revolving credit utilization. Although this did not cause me to remove any features, it suppored the reasoning for my polynomial features. 
+Before training the Deep Neural Network model, I created a simple Random Tree Forest model in order to find feature importance. The most important features included: Zipcodes of 937, 116, and 866, interest rate, debt to income ratio, and revolving credit utilization. Although this did not cause me to remove any features, it supported the reasoning for my polynomial features. This Random Tree Forest model is not in the code because of the time it took to process (it is in a copy).
 
 
 # <ins>Other things I tried but did NOT implement<ins>
@@ -267,19 +267,19 @@ Before training the Deep Neural Network model, I created a simple Random Tree Fo
 - Different learning rates for the model
 
   
-- Dfiferent class weights for the model
+- Different class weights for the model
   
 
-- Categorized the annual income by classes from the Census Bureau"s 2022 report for Income in the United States,, with th Lower class: less than or equal to $30,000, Lower-middle class:  30,001– 58,020, Middle class:  58,021– 94,000, Upper-middle class:  94,001– 153,000, and Upper class: greater than $153,000. The logic was that there are too many unique incomes, but it also meant that the model wouldn't ingest the linear relationships with annual income and it reduced the model performance
+- Categorized the annual income by classes from the Census Bureau's 2022 report on Income in the United States, with th Lower class: less than or equal to $30,000, Lower-middle class:  30,001– 58,020, Middle class:  58,021– 94,000, Upper-middle class:  94,001– 153,000, and Upper class: greater than $153,000. The logic was that there are too many unique incomes, but it also meant that the model wouldn't ingest the linear relationships with annual income and it reduced the model performance
 
   
-- Deleted the top 0.05% of the values for Debt-to-income ratio and Revolving Credit Utilization because there are several outliers that are very high.  However, there might be an explanation for these, so I did not delete the outliers except for the 99999 for dti. Deleting these outliers also reduced the overall model performance
+- I deleted the top 0.05% of the values for Debt-to-income ratio and Revolving Credit Utilization because several outliers were very high. However, there might be an explanation for these, so I did not delete the outliers except for the 99999 for dti. Deleting these outliers also reduced the overall model performance
 
   
 - After extracting the year from earliest credit account, I then categorized by decade. However, the model wouldn't ingest the linear relationships with the years and it reduced the model performance
 
   
-- Deleted the low-correlated features with loan_repaid (ex. employment length). However, this means the model misses out on other relationships and reduced the model performance (and it didn't allow for polynomial features)
+- Deleted the low-correlated features with loan_repaid (ex. employment length). However, this means the model misses out on other relationships and reduced the model performance (and it did not allow for polynomial features)
 
   
 
