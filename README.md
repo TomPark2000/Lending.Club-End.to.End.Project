@@ -47,6 +47,7 @@ I then wanted to see if there was a relationship between the **loan status and t
 
 
 I dove deeper by looking at the summary statistics of the loan status and loan amount. This confirmed the initial findings:
+
 ![](images/stats_status_amnt.png)
 
 
